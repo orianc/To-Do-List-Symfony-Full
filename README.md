@@ -74,3 +74,24 @@ composer require --dev doctrine/doctrine-fixtures-bundle
     1.  On part d'un tableau de catégories
     2.  Pour chaque catégorie je veux l'enregistrer dans la table physique
         1.  Sous Symfony tout passe par l'objet -> class `Category`
+2.  On créer un Objet `Todo`.
+    1.  La méthode `setCategory()` qui a besoin d'un objet `Category` comme argument.
+
+### Controllers
+
+#### Test Controllers
+- L'objectif est de voir le format de rendu que propose le Controller, sachant que **Twig n'est pas installé.**
+
+```bash
+symfony console make:controller Test
+```
+
+#### Install Twig 
+```bash
+composer require twig
+```
+### Controller Todo
+```bash
+symfony console make:controller Todo
+# Maintenant il créer un View dans un nouveau dossier `Template`
+```

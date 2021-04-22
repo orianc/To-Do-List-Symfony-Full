@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}To do{% endblock %}
+
+{% block body %}
+
+
+{% for todo in todolist %}
+
+<div>
+    <h3>{{ todo.title }}</h3>
+    <a href="{{path( )}}">Voir cette ToDo liste</a>
+</div>
+     
+{% endfor %}
+
+
+{% endblock %}

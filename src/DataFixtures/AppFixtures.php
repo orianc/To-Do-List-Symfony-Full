@@ -26,15 +26,17 @@ class AppFixtures extends Fixture
 
 
         #3 Créer une ou plusieurs ToDO
+        
         $todo = new Todo();
         $todo
-            ->setTitle('Init projet')
-            ->setContent('Détail du projet')
+            ->setTitle('Projet framework')
+            ->setContent('Mettre en place le projet framework et progresser')
             ->setDateFor(new DateTime('Europe/paris'))
-            ->setCategory($tabObjCategory[0])
-            ;
-            $manager->persist($todo);
+            ->setCategory($tabObjCategory[0]);
 
-    $manager->flush();
+
+        $manager->persist($todo);
+
+        $manager->flush();
     }
 }
