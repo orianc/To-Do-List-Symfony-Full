@@ -1,15 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}To do
-{% endblock %}
+{% block title %}Hello CategoryController!{% endblock %}
 
 {% block body %}
-<main>
-	<section class="container bg-light">
-		{% for todo in todolist %}
-
+<main class="">
+	<section class="container  bg-light">
+		{% for cat in allcategory %}
 			<div class="row">
-				<h4>{{ todo.title }}</h4>
+				<h3>{{ cat.name }}</h3>
                 
 				<a href="">View</a>
 				<a href="">Edit</a>
@@ -19,6 +17,4 @@
 
 	</section>
 </main>
-
-
 {% endblock %}
