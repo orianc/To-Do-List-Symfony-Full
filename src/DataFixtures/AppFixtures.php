@@ -34,8 +34,16 @@ class AppFixtures extends Fixture
             ->setDateFor(new DateTime('Europe/paris'))
             ->setCategory($tabObjCategory[0]);
 
-
         $manager->persist($todo);
+        $todo2 = new Todo();
+        $todo2
+        ->setTitle('Projet vacance')
+        ->setContent('Mettre en voile pour les canaries')
+        ->setDateFor(new DateTime('Europe/paris'))
+        ->setCategory($tabObjCategory[1]);
+        $manager->persist($todo2);
+    
+
 
         $manager->flush();
     }

@@ -4,21 +4,34 @@
 {% endblock %}
 
 {% block body %}
-<main>
-	<section class="container bg-light">
-		{% for todo in todolist %}
+	<main>
 
+		<section class="container bg-light">
+								<a href="" class="btn btn-danger my-5">New To Do list</a>
 			<div class="row">
-				<h4>{{ todo.title }}</h4>
-                
-				<a href="">View</a>
-				<a href="">Edit</a>
-				<a href="">Delete</a>
+	
+				<table class="table table-striped">
+					<tr>
+						<th>Titre</th>
+						<th>Categories</th>
+						<th>Créé le</th>
+						<th>Actions</th>
+					</tr>
+					{% for todo in todolist %}
+						<tr>
+							<td>{{ todo.title }}</td>
+							<td>{{ todo.category.name}}</td>
+							<td>{{ todo.createdAt|date('d/m/Y') }}</td>
+							<td>
+								<a href="{{ path('app_todo_show',{'id' : todo.id }) }}" class="btn btn-success">Show</a>
+								<a href="" class="btn btn-success">Edit</a>
+								<a href="" class="btn btn-success">Delete</a>
+							</td>
+						</tr>
+					{% endfor %}
+				</table>
+
 			</div>
-		{% endfor %}
-
-	</section>
-</main>
-
-
+		</section>
+	</main>
 {% endblock %}

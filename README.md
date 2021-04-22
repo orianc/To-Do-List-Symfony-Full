@@ -95,3 +95,27 @@ composer require twig
 symfony console make:controller Todo
 # Maintenant il créer un View dans un nouveau dossier `Template`
 ```
+### La page d'accueil
+
+Le controller va récup notre premier enregirstrement de la table To DO et le passer à la vue `todo/index`
+La mise en forme est gérée par des tables Bootstrap
+
+### La page détail
+
+1. Une méthode et sa route
+2. Une vue dans template Todo
+3. Le lien au niveau du bouton
+
+```php
+    /**
+     * @Route("/todo/{id}", name="app_todo_show")
+     */
+    public function show($id, TodoRepository $todoRepository): Response
+    {
+        //dd($id);
+        $todo = $todoRepository->find($id);
+        return $this->render('todo/show.html.twig', [
+            'todo' => $todo
+        ]);
+    }
+```
