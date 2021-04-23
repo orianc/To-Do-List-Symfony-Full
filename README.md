@@ -117,8 +117,8 @@ La mise en forme est gérée par des tables Bootstrap
             ]);
         }
     ```
-1. Une vue dans template Todo
-2. Le lien au niveau du bouton
+2. Une vue dans template Todo
+3. Le lien au niveau du bouton
 
 
 ### Generate Form
@@ -137,14 +137,46 @@ Générer la class `TodoFormType`
 ```
 
 ##### Etape 2 :
-Gestion du formulaire dans la méthode adéquate du controller.
-Dans notre cas c'est la méthode `TodoController@create()`.
+Création de la méthode `TodoController@create()`.
 On va créer le lien du bouton 'New Todo List' pour tester le chemin  jsuqu'à la view `'todo/create.html.twig'`
 Si besoin installer le profiler pour bugfix
 
+##### Si problème de route :
+1.  Voir la forme des urls et des routes.
 ```bash
 composer require --dev symfony/profiler-pack
 # Si problème de route :
 symfonny console debug:router
 ```
 
+1. L'ordre de placement des méthodes peut influer.
+2. La possibilité d'ajouter un paramètre `priority = int`. 
+
+
+##### Etape 3 :
+Gestion du formulaire dans la méthode adéquate du controller.
+```php
+    /**
+     * @Route("/todo/create", name="app_todo_create")
+     * @return void
+     */
+    public function create(): Response
+    {
+        $todo = new Todo;
+        $form = $this->createForm(TodoFormType::class, $todo);
+        return $this->render('todo/create.html.twig', [
+            'newTodoForm' => $form->createView()
+        ]);
+    }
+
+```
+Affichage du fromulaire dans la view
+
+Améliorer le visuel avec : 
+```yaml
+form_themes: ['bootstrap_4_layout.html.twig]
+```
+
+#### Problème du champ catégory
+Il fait référence à une relation avec une autre entity
+On va ajouter des types la classe `TodoFormType`
