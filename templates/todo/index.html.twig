@@ -7,9 +7,9 @@
 	<main>
 
 		<section class="container bg-light">
-								<a href="" class="btn btn-danger my-5">New To Do list</a>
+			<a href="{{path('app_todo_create')}}" class="btn btn-primary my-5">New To Do list</a>
 			<div class="row">
-	
+
 				<table class="table table-striped">
 					<tr>
 						<th>Titre</th>
@@ -24,8 +24,8 @@
 							<td>{{ todo.createdAt|date('d/m/Y') }}</td>
 							<td>
 								<a href="{{ path('app_todo_show',{'id' : todo.id }) }}" class="btn btn-success">Show</a>
-								<a href="" class="btn btn-success">Edit</a>
-								<a href="" class="btn btn-success">Delete</a>
+								<a href="" class="btn btn-warning">Edit</a>
+								<a href="" class="btn btn-danger">Delete</a>
 							</td>
 						</tr>
 					{% endfor %}

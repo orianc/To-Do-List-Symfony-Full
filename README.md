@@ -129,5 +129,22 @@ La mise en forme est gérée par des tables Bootstrap
 ```
 
 #### Generate Form
+##### Etape 1 :
 
+Générer la class `TodoFormType`
+```bash
+    symfony console make:form
+```
+
+##### Etape 2 :
+Gestion du formulaire dans la méthode adéquate du controller.
+Dans notre cas c'est la méthode `TodoController@create()`.
+On va créer le lien du bouton 'New Todo List' pour tester le chemin  jsuqu'à la view `'todo/create.html.twig'`
+Si besoin installer le profiler pour bugfix
+
+```bash
+composer require --dev symfony/profiler-pack
+# Si problème de route :
+symfonny console debug:router
+```
 

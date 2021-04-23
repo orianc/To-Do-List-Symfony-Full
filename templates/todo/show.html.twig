@@ -3,14 +3,13 @@
 {% block body %}
 	<main>
 		<section class="container bg-light">
-			<p class="btn btn-danger my-5">To Do list</a>
-			<div class="row">
+			<a href="{{path('app_todo')}}" class="btn btn-danger my-5">All To Do list</a>
 				<p>{{ todo.title }}</p>
 				<p>{{ todo.category.name}}</p>
 				<p>{{ todo.createdAt|date('d/m/Y') }}</p>
 				<p>{{ todo.content }}</p>
 
-			</div>
+			
 		</section>
 	</main>
 {% endblock %}

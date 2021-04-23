@@ -24,7 +24,7 @@ class TodoController extends AbstractController
     }
 
     /**
-     * @Route("/todo/{id}", name="app_todo_show")
+     * @Route("/todo/show/{id}", name="app_todo_show")
      */
     public function show($id, TodoRepository $todoRepository): Response
     {
@@ -33,14 +33,14 @@ class TodoController extends AbstractController
         return $this->render('todo/show.html.twig', [
             'todo' => $todo
         ]);
-
-        
     }
-
     /**
-     * @Route("/test/{v}", name="app_test")
+     * @Route("/todo/create", name="app_todo_create")
+     * @return void
      */
-    public function test($v){
-        dd($v);
+    public function create() 
+    {
+        return $this->render('todo/create.html.twig' , []);
     }
+
 }
