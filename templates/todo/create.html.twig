@@ -2,6 +2,14 @@
 
 {% block body %}
 
-<h3>Creat Form = view</h3>
+	<div class="container">
 
-{% endblock %}
+		<div class="row justify-content-center flex-wrap ">
+			<h3 class="my-3">Créer une nouvelle Todo List</h3>
+			<div class="col-6">
+				{{ form(newTodoForm) }}
+
+			</div>
+		</div>
+
+	{% endblock %}

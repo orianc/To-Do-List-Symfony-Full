@@ -4,15 +4,18 @@ namespace App\Controller;
 
 use App\Entity\Category;
 use App\Entity\Todo;
+use App\Form\TodoFormType;
 use App\Repository\TodoRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class TodoController extends AbstractController
 {
     /**
-     * @Route("/todo", name="app_todo")
+     * @Route("/", "/todo" ,"/todo/list", name="app_todo")
      */
     public function index(): Response
     {
@@ -21,6 +24,34 @@ class TodoController extends AbstractController
         return $this->render('todo/index.html.twig', [
             'todolist' => $all_todo,
         ]);
+    }
+
+    /**
+     * @Route("/todo/create", name="app_todo_create", methods={"GET", "POST"})
+     * @return void
+     */
+    public function create(Request $request, EntityManagerInterface $em): Response
+    {
+        # Etape d'affichage (GET)
+        $todo = new Todo;
+        $form = $this->createForm(TodoFormType::class, $todo);
+        
+        # Etape submit (POST)
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            
+
+            // $this->getDoctrine()->getManager()->persist($todo);
+
+            $em->persist($todo);
+            $em->flush();
+            return $this->redirectToRoute('app_todo');
+        }
+
+        return $this->render('todo/create.html.twig', [
+            'newTodoForm' => $form->createView()
+        ]);
+
     }
 
     /**
@@ -34,13 +65,4 @@ class TodoController extends AbstractController
             'todo' => $todo
         ]);
     }
-    /**
-     * @Route("/todo/create", name="app_todo_create")
-     * @return void
-     */
-    public function create() 
-    {
-        return $this->render('todo/create.html.twig' , []);
-    }
-
 }
