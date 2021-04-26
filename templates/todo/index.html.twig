@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends "base.html.twig" %}
 
 {% block title %}To do
 {% endblock %}
@@ -24,7 +24,7 @@
 							<td>{{ todo.createdAt|date('d/m/Y') }}</td>
 							<td>
 								<a href="{{ path('app_todo_show',{'id' : todo.id }) }}" class="btn btn-success">Show</a>
-								<a href="" class="btn btn-warning">Edit</a>
+								<a href="{{ path('app_todo_update',{'id' : todo.id }) }}" class="btn btn-warning">Edit</a>
 								<a href="" class="btn btn-danger">Delete</a>
 							</td>
 						</tr>

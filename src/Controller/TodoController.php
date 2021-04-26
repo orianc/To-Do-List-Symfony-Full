@@ -35,11 +35,11 @@ class TodoController extends AbstractController
         # Etape d'affichage (GET)
         $todo = new Todo;
         $form = $this->createForm(TodoFormType::class, $todo);
-        
+
         # Etape submit (POST)
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            
+
 
             // $this->getDoctrine()->getManager()->persist($todo);
 
@@ -51,7 +51,6 @@ class TodoController extends AbstractController
         return $this->render('todo/create.html.twig', [
             'newTodoForm' => $form->createView()
         ]);
-
     }
 
     /**
@@ -59,10 +58,29 @@ class TodoController extends AbstractController
      */
     public function show($id, TodoRepository $todoRepository): Response
     {
-        //dd($id);
         $todo = $todoRepository->find($id);
         return $this->render('todo/show.html.twig', [
             'todo' => $todo
+        ]);
+    }
+
+
+    /** Paramconverter => correspondance entre un id dans la route et un objet du type de ToDo.
+     * 
+     * 
+     * @Route("/todo/update/{id}", name="app_todo_update", methods={"GET", "POST"})
+     */
+    public function update(Todo $todo, Request $request, EntityManagerInterface $em): Response
+    {
+        $form = $this->createForm(TodoFormType::class, $todo);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $em->flush();
+            return $this->redirectToRoute('app_todo');
+        }
+        return $this->render('todo/update.html.twig', [
+            'formTodo' => $form->createView()
         ]);
     }
 }

@@ -180,3 +180,10 @@ form_themes: ['bootstrap_4_layout.html.twig]
 #### Problème du champ catégory
 Il fait référence à une relation avec une autre entity
 On va ajouter des types la classe `TodoFormType`
+
+#### Création de la méthode `update()`
+On utilise cette fois ci une construction de méthode différente qui nécessite le bundle : 
+```bash
+composer req sensio/framework-extra-bundle
+```
+Son rôle est de faire la correspondance entre une url avec l'id d'un objet et l'objet passé en paramètre.
