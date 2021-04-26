@@ -187,3 +187,49 @@ On utilise cette fois ci une construction de méthode différente qui nécessite
 composer req sensio/framework-extra-bundle
 ```
 Son rôle est de faire la correspondance entre une url avec l'id d'un objet et l'objet passé en paramètre.
+
+La méthode met à jour la date du champ "Mis à jour le :" grace à :
+```php
+$todo->setUpdateAt(new DateTime('now'));
+```
+Ajout d'un message d'alerte de confirmation d'update après validation en rechargeant la même page. 
+Dans la vue :
+```php
+		{% for label, messages in app.flashes %}
+			{% for message in messages %}
+				<div class="alert alert-{{ label }} my-3">
+					{{ message }}
+				</div>
+			{% endfor %}
+
+		{% endfor %}
+```
+Dans la méthode du controller :
+```php
+
+    # Création d'un msg flash
+    $this->addFlash('info', 'ToDo liste modifiée !');
+    # Return sur la même page (GET)
+    return $this->redirectToRoute('app_todo_update', [ 'id' => $todo->getId()  ]);
+
+```
+#### Création de la méthode `delete()`
+```php
+
+    /**
+     * Function delete
+     *
+     * 
+     * @Route("/todo/delete/{id}", name="app_todo_delete")
+     * 
+     * @param Todo $todo
+     * @param EntityManagerInterface $em
+     * @return void
+     */
+    public function delete(Todo $todo, EntityManagerInterface $em)
+    {
+        $em->remove($todo);
+        $em->flush();
+        return $this->redirectToRoute('app_todo');
+    }
+```

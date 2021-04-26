@@ -24,8 +24,8 @@
 							<td>{{ todo.createdAt|date('d/m/Y') }}</td>
 							<td>
 								<a href="{{ path('app_todo_show',{'id' : todo.id }) }}" class="btn btn-success">Show</a>
-								<a href="{{ path('app_todo_update',{'id' : todo.id }) }}" class="btn btn-warning">Edit</a>
-								<a href="" class="btn btn-danger">Delete</a>
+								<a href="{{ path('app_todo_update',{'id' : todo.id }) }}" class="btn btn-info">Edit</a>
+								<a href="{{ path('app_todo_delete',{'id' : todo.id }) }}" class="btn btn-danger">Delete</a>
 							</td>
 						</tr>
 					{% endfor %}

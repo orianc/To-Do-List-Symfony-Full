@@ -4,12 +4,22 @@
 
 	<div class="container">
 
-		<div class="row justify-content-center flex-wrap ">
-			<h3 class="my-3">Modifier la To Do liste</h3>
-			<div class="col-6">
-				{{ form(formTodo) }}
-
+		{% for label, messages in app.flashes %}
+			{% for message in messages %}
+				<div class="alert alert-{{ label }} my-3">
+					{{ message }}
 				</div>
-			</div>
+			{% endfor %}
 
-		{% endblock %}
+		{% endfor %}
+		<div class="row justify-content-center">
+			<div class="col-6">
+			<h3 class="my-5">Modifier la To Do liste</h3>
+			
+            	{{ form(formTodo) }}
+
+			</div>
+		</div>
+    </div>
+{% endblock %}
+	

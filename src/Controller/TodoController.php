@@ -6,6 +6,8 @@ use App\Entity\Category;
 use App\Entity\Todo;
 use App\Form\TodoFormType;
 use App\Repository\TodoRepository;
+use DateTime;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -75,12 +77,35 @@ class TodoController extends AbstractController
         $form = $this->createForm(TodoFormType::class, $todo);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-
+            # Update du form
+            $todo->setUpdateAt(new DateTime('now'));
             $em->flush();
-            return $this->redirectToRoute('app_todo');
+            # Création d'un msg flash
+            $this->addFlash('info', 'ToDo liste modifiée !');
+            # Return sur la même page (GET)
+            return $this->redirectToRoute('app_todo_update', ['id' => $todo->getId()]);
         }
+
+
         return $this->render('todo/update.html.twig', [
             'formTodo' => $form->createView()
         ]);
+    }
+
+    /**
+     * Function delete
+     *
+     * 
+     * @Route("/todo/delete/{id}", name="app_todo_delete")
+     * 
+     * @param Todo $todo
+     * @param EntityManagerInterface $em
+     * @return void
+     */
+    public function delete(Todo $todo, EntityManagerInterface $em)
+    {
+        $em->remove($todo);
+        $em->flush();
+        return $this->redirectToRoute('app_todo');
     }
 }
