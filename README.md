@@ -173,8 +173,8 @@ Gestion du formulaire dans la méthode adéquate du controller.
 
 ```
 Affichage du fromulaire dans la view
-
 Améliorer le visuel avec : 
+
 ```yaml
 form_themes: ['bootstrap_4_layout.html.twig]
 ```
@@ -188,7 +188,7 @@ On utilise cette fois ci une construction de méthode différente qui nécessite
 ```bash
 composer req sensio/framework-extra-bundle
 ```
-Son rôle est de faire la correspondance entre une url avec l'id d'un objet et l'objet passé en paramètre.
+Son rôle est de faire la **correspondance entre une url avec l'id d'un objet et l'objet passé en paramètre.**
 
 La méthode met à jour la date du champ "Mis à jour le :" grace à :
 ```php
@@ -239,8 +239,7 @@ Dans la méthode du controller :
 #### Concernant la protection CSRF
 
 ```bash
-
-        composer require symfony/security-csrf
+    composer require symfony/security-csrf
 ```
 ```php
 
@@ -256,9 +255,10 @@ Dans la méthode du controller :
     }
 ```
 #### Concernant la protection CSRF
-    Création d'un message de confirmation de suppression en JS sur la View d'Update.
+Création d'un message de confirmation de suppression en JS sur la View d'Update.
 
 ```js
+// Le script doit être placé en bas du body, voir `base.html.twig`
 <script>
 const deleteForm = document.querySelector('.deleteForm');
 deleteForm.addEventListener('click', function(e) {
@@ -268,4 +268,20 @@ deleteForm.addEventListener('click', function(e) {
     }
 });
 </script>
+```
+## Création d'une navbar
+
+- Un fichier `navbar.html.twig` avec une navbar BS
+- Elle comprendra les boutons `titre` `accueil` `dropdown` pour les catégories.
+- Inclure dans `base.html.twig` dans un block `{% block navbar %}{% endblock %}`
+
+### Pour la partie dropdown des catégories
+On inclue au controller la méthode `__construct` et un attribut `private $all_categories;`
+```php
+private $all_categories;
+    // Appel du repo de category
+    function __construct(CategoryRepository $categoryRepository)
+    {
+        $this->all_categories = $categoryRepository->findAll();
+    }
 ```

@@ -10,12 +10,18 @@
 		{% block stylesheets %}
 			<link rel="stylesheet" href="{{ asset('css/bootstrap.min.css')}}">
 			<link rel="stylesheet" href="{{ asset('css/style.css')}}">
+			<link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
 		{% endblock %}
 	</head>
-    
+
 	<body>
+		{% include "navbar.html.twig" %}
 		{% block body %}{% endblock %}
 
-		{% block javascripts %}{% endblock %}
+
+		{% block javascripts %}
+   		 	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    		<script src="{{ asset('js/bootstrap.min.js')}}"></script>
+		{% endblock %}
 	</body>
 </html>

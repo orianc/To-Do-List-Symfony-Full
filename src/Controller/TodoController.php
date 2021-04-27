@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Category;
 use App\Entity\Todo;
 use App\Form\TodoFormType;
+use App\Repository\CategoryRepository;
 use App\Repository\TodoRepository;
 use DateTime;
 use Doctrine\ORM\EntityManager;
@@ -16,6 +17,12 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class TodoController extends AbstractController
 {
+    private $all_categories;
+
+    function __construct(CategoryRepository $categoryRepository)
+    {
+        $this->all_categories = $categoryRepository->findAll();
+    }
     /**
      * @Route("/", "/todo" ,"/todo/list", name="app_todo")
      */
@@ -25,8 +32,10 @@ class TodoController extends AbstractController
 
         return $this->render('todo/index.html.twig', [
             'todolist' => $all_todo,
+            'categories' => $this->all_categories
         ]);
     }
+
 
     /**
      * @Route("/todo/create", name="app_todo_create", methods={"GET", "POST"})
@@ -51,7 +60,9 @@ class TodoController extends AbstractController
         }
 
         return $this->render('todo/create.html.twig', [
-            'newTodoForm' => $form->createView()
+            'newTodoForm' => $form->createView(),
+            'categories' => $this->all_categories
+
         ]);
     }
 
@@ -62,7 +73,9 @@ class TodoController extends AbstractController
     {
         $todo = $todoRepository->find($id);
         return $this->render('todo/show.html.twig', [
-            'todo' => $todo
+            'todo' => $todo,
+            'categories' => $this->all_categories
+
         ]);
     }
 
@@ -83,13 +96,17 @@ class TodoController extends AbstractController
             # Création d'un msg flash
             $this->addFlash('info', 'ToDo liste modifiée !');
             # Return sur la même page (GET)
-            return $this->redirectToRoute('app_todo_update', ['id' => $todo->getId()]);
+            return $this->redirectToRoute('app_todo_update', [
+                'id' => $todo->getId(),
+                'categories' => $this->all_categories
+            ]);
         }
 
 
         return $this->render('todo/update.html.twig', [
             'formTodo' => $form->createView(),
-            'todo' => $todo
+            'todo' => $todo,
+            'categories' => $this->all_categories
 
         ]);
     }
@@ -135,5 +152,21 @@ class TodoController extends AbstractController
         }
 
         return $this->redirectToRoute('app_todo');
+    }
+    /**
+     * méthode permettant de trouver toutes les todo d'une catégorie
+     * @Route("/todo/category/{id}", name="app_todo_category")
+     *
+     * 
+     * @param Category $cat
+     * @return void
+     */
+    public function todoByCategory(Category $cat): Response
+    {
+        return $this->render('todo/index.html.twig', [
+            'todolist' => $cat->getTodos(),
+            'categories' => $this->all_categories
+     
+        ]);
     }
 }

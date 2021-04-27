@@ -33,6 +33,7 @@
 	{% endblock %}
 
 	{% block javascripts %}
+	{{ parent() }}
 		<script>
 			const deleteForm = document.querySelector('.deleteForm');
 				deleteForm.addEventListener('click', function(e) {

@@ -40,3 +40,13 @@
 		</section>
 	</main>
 {% endblock %}
+{% block javascripts %}
+{{ parent()}}
+	{# <script>
+	$('.table').on('click', function(){
+
+		alert('dsdgsdg')
+	}
+	);
+	</script> #}
+{% endblock %}
