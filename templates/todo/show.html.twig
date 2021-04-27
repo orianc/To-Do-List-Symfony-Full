@@ -3,14 +3,19 @@
 {% block body %}
 	<main>
 		<section class="container bg-light">
-			<a href="{{path('app_todo')}}" class="btn btn-danger my-5">All To Do list</a>
-			<h3>Titre : {{ todo.title }}</h3>
-			<p>Catégorie : {{ todo.category.name}}</p>
-			<p>Créé le : {{ todo.createdAt|date('d/m/Y') }}</p>
-			<p>Mise à jour le : {{ todo.updateAt|date('d/m/Y') }}</p>
-			<p>A faire pour : {{ todo.dateFor|date('d/m/Y') }}</p>
-
-			<p>Résumé : {{ todo.content }}</p>
+			<a href="{{path('app_todo')}}" class="btn btn-primary my-5">All To Do list</a>
+			<h3>{{ todo.title }}</h3>
+			<p class="btn btn-info p-1">{{ todo.category.name}}</p>
+				<ul style="font-size : 11px">
+					<li>Créé le :
+						{{ todo.createdAt|date('d/m/Y') }}</li>
+					<li>Mise à jour le :
+						{{ todo.updateAt|date('d/m/Y') }}</li>
+					<li>A faire pour :
+						{{ todo.dateFor|date('d/m/Y') }}</li>
+				</ul>
+			<p>
+				{{ todo.content }}</p>
 
 
 		</section>

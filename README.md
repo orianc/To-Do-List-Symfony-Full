@@ -2,6 +2,8 @@
 - Création du projet et installation du package Symfony mini via :
 ```bash
 symfony new TodoList --version=5.2
+
+ php -S localhost:5000 -t public
 ```
 - Voir les composants requis au fur et a mesure
 - Gestion de données avec système CRUD
@@ -232,4 +234,38 @@ Dans la méthode du controller :
         $em->flush();
         return $this->redirectToRoute('app_todo');
     }
+```
+
+#### Concernant la protection CSRF
+
+```bash
+
+        composer require symfony/security-csrf
+```
+```php
+
+    public function delete2(Todo $todo, EntityManagerInterface $em, Request $request)
+    {
+        $submittedToken = $request->request->get('token');
+        if ($this->isCsrfTokenValid('delete-item', $submittedToken)) {
+            $em->remove($todo);
+            $em->flush();
+        }
+
+        return $this->redirectToRoute('app_todo');
+    }
+```
+#### Concernant la protection CSRF
+    Création d'un message de confirmation de suppression en JS sur la View d'Update.
+
+```js
+<script>
+const deleteForm = document.querySelector('.deleteForm');
+deleteForm.addEventListener('click', function(e) {
+    e.preventDefault();
+    if (confirm('Supprimer ?')) {
+        this.submit()
+    }
+});
+</script>
 ```

@@ -6,8 +6,8 @@
 {% block body %}
 	<main>
 
-		<section class="container bg-light">
-			<a href="{{path('app_todo_create')}}" class="btn btn-primary my-5">New To Do list</a>
+		<section class="container">
+			<a href="{{path('app_todo_create')}}" class="btn btn-light my-5">New To Do list</a>
 			<div class="row">
 
 				<table class="table table-striped">
@@ -15,6 +15,8 @@
 						<th>Titre</th>
 						<th>Categories</th>
 						<th>Créé le</th>
+						<th>Modifié le</th>
+						<th>A faire pour</th>
 						<th>Actions</th>
 					</tr>
 					{% for todo in todolist %}
@@ -22,9 +24,12 @@
 							<td>{{ todo.title }}</td>
 							<td>{{ todo.category.name}}</td>
 							<td>{{ todo.createdAt|date('d/m/Y') }}</td>
+							<td>{{ todo.updateAt|date('d/m/Y') }}</td>
+							<td>{{ todo.dateFor|date('d/m/Y') }}</td>
+
 							<td>
 								<a href="{{ path('app_todo_show',{'id' : todo.id }) }}" class="btn btn-success">Show</a>
-								<a href="{{ path('app_todo_update',{'id' : todo.id }) }}" class="btn btn-info">Edit</a>
+								<a href="{{ path('app_todo_update',{'id' : todo.id }) }}" class="btn btn-info">Update</a>
 								<a href="{{ path('app_todo_delete',{'id' : todo.id }) }}" class="btn btn-danger">Delete</a>
 							</td>
 						</tr>

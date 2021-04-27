@@ -88,7 +88,9 @@ class TodoController extends AbstractController
 
 
         return $this->render('todo/update.html.twig', [
-            'formTodo' => $form->createView()
+            'formTodo' => $form->createView(),
+            'todo' => $todo
+
         ]);
     }
 
@@ -106,6 +108,32 @@ class TodoController extends AbstractController
     {
         $em->remove($todo);
         $em->flush();
+        return $this->redirectToRoute('app_todo');
+    }
+
+
+    /**
+     * Function delete
+     *
+     * 
+     * @Route("/todo/delete_csrf/{id}", name="app_todo_delete_csrf")
+     * 
+     * @param Todo $todo
+     * @param EntityManagerInterface $em
+     * @return void
+     * $request->request->get() : POST
+     * $request->query->get() : GET
+     * 
+     */
+
+    public function delete2(Todo $todo, EntityManagerInterface $em, Request $request)
+    {
+        $submittedToken = $request->request->get('token');
+        if ($this->isCsrfTokenValid('delete-item', $submittedToken)) {
+            $em->remove($todo);
+            $em->flush();
+        }
+
         return $this->redirectToRoute('app_todo');
     }
 }

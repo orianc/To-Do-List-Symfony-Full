@@ -1,18 +1,21 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome !{% endblock %}</title>
+	<head>
+		<meta charset="UTF-8">
+		<title>
+			{% block title %}Welcome !
+			{% endblock %}
+		</title>
 
-        {% block stylesheets %}
-            <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css')}}">
-           <link rel="stylesheet" href="{{ asset('css/style.css')}}">
-        {% endblock %}
+		{% block stylesheets %}
+			<link rel="stylesheet" href="{{ asset('css/bootstrap.min.css')}}">
+			<link rel="stylesheet" href="{{ asset('css/style.css')}}">
+		{% endblock %}
+	</head>
+    
+	<body>
+		{% block body %}{% endblock %}
 
-        {% block javascripts %}
-        {% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-    </body>
+		{% block javascripts %}{% endblock %}
+	</body>
 </html>

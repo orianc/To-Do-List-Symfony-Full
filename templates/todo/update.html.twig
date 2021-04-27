@@ -12,14 +12,34 @@
 			{% endfor %}
 
 		{% endfor %}
+		<a href="{{path('app_todo')}}" class="btn btn-primary my-3">All To Do list</a>
 		<div class="row justify-content-center">
 			<div class="col-6">
-			<h3 class="my-5">Modifier la To Do liste</h3>
-			
-            	{{ form(formTodo) }}
+				<h3 class="mb-5">Modifier la To Do liste</h3>
 
+				{{ form(formTodo) }}
+
+
+					<form class="deleteForm" action="{{ path('app_todo_delete_csrf', { id: todo.id }) }}" method="POST">
+
+						<input type="hidden" name="_method" value="DELETE"/>
+						<input type="hidden" name="token" value="{{ csrf_token('delete-item') }}"/>
+
+						<button type="submit" class="btn btn-danger">Delete</button>
+					</form>
+				</div>
 			</div>
 		</div>
-    </div>
-{% endblock %}
-	
+	{% endblock %}
+
+	{% block javascripts %}
+		<script>
+			const deleteForm = document.querySelector('.deleteForm');
+				deleteForm.addEventListener('click', function(e) {
+					e.preventDefault();
+					if (confirm('Supprimer ?')) {
+						this.submit()
+					}
+				});
+		</script>
+	{% endblock %}
