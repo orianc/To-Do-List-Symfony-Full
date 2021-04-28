@@ -12,9 +12,9 @@
       - [Controller Todo](#controller-todo)
       - [La page d'accueil](#la-page-daccueil)
       - [La page détail](#la-page-détail)
-    - [Generate Form](#generate-form)
+    - [Etape 4 : Générer un formulaire](#etape-4--générer-un-formulaire)
       - [Install](#install)
-      - [Generate Form](#generate-form-1)
+      - [Generate Form](#generate-form)
         - [Etape 1 :](#etape-1-)
         - [Etape 2 :](#etape-2-)
         - [Si problème de route :](#si-problème-de-route-)
@@ -24,13 +24,14 @@
       - [Création de la méthode `delete()`](#création-de-la-méthode-delete)
       - [Concernant la protection CSRF](#concernant-la-protection-csrf)
       - [Concernant la protection CSRF](#concernant-la-protection-csrf-1)
-  - [Création d'une navbar](#création-dune-navbar)
-    - [Pour la partie dropdown des catégories](#pour-la-partie-dropdown-des-catégories)
       - [Ajout de contrainte de champs](#ajout-de-contrainte-de-champs)
           - [Dans l'entité `Todo`](#dans-lentité-todo)
           - [Dans le `TodoFormType`](#dans-le-todoformtype)
-  - [Version de l'api avec Sql Lite (Chargement mise en place d'une bdd différente)](#version-de-lapi-avec-sql-lite-chargement-mise-en-place-dune-bdd-différente)
-  - [Version de l'api avec PostGreSQL (Chargement mise en place d'une bdd différente)](#version-de-lapi-avec-postgresql-chargement-mise-en-place-dune-bdd-différente)
+    - [Etape 5 : Création d'une navbar](#etape-5--création-dune-navbar)
+      - [Pour la partie dropdown des catégories](#pour-la-partie-dropdown-des-catégories)
+    - [Version de l'api avec Sql Lite](#version-de-lapi-avec-sql-lite)
+    - [Version de l'api avec PostGreSQL](#version-de-lapi-avec-postgresql)
+    - [Migration et fixtures en mode prod](#migration-et-fixtures-en-mode-prod)
 
 
 # Projet : toDoList
@@ -158,7 +159,7 @@ La mise en forme est gérée par des tables Bootstrap
 3. Le lien au niveau du bouton
 
 
-### Generate Form
+### Etape 4 : Générer un formulaire
 
 #### Install
 ```bash
@@ -304,23 +305,6 @@ deleteForm.addEventListener('click', function(e) {
 });
 </script>
 ```
-## Création d'une navbar
-
-- Un fichier `navbar.html.twig` avec une navbar BS
-- Elle comprendra les boutons `titre` `accueil` `dropdown` pour les catégories.
-- Inclure dans `base.html.twig` dans un block `{% block navbar %}{% endblock %}`
-
-### Pour la partie dropdown des catégories
-On inclue au controller la méthode `__construct` et un attribut `private $all_categories;`
-```php
-private $all_categories;
-    // Appel du repo de category
-    function __construct(CategoryRepository $categoryRepository)
-    {
-        $this->all_categories = $categoryRepository->findAll();
-    }
-```
-
 
 
 #### Ajout de contrainte de champs
@@ -348,8 +332,26 @@ Et dans la méthode `configureOptions()`
     'novalidate' => 'novalidate'
 ```
 
+### Etape 5 : Création d'une navbar
 
-## Version de l'api avec Sql Lite (Chargement mise en place d'une bdd différente)
+- Un fichier `navbar.html.twig` avec une navbar BS
+- Elle comprendra les boutons `titre` `accueil` `dropdown` pour les catégories.
+- Inclure dans `base.html.twig` dans un block `{% block navbar %}{% endblock %}`
+
+#### Pour la partie dropdown des catégories
+On inclue au controller la méthode `__construct` et un attribut `private $all_categories;`
+```php
+private $all_categories;
+    // Appel du repo de category
+    function __construct(CategoryRepository $categoryRepository)
+    {
+        $this->all_categories = $categoryRepository->findAll();
+    }
+```
+
+
+
+### Version de l'api avec Sql Lite
 
 1. Installer SqlLiteStudio
 2. Définir la collection dans le fichier `.env`
@@ -365,10 +367,46 @@ symfony console doctrine:database:create
 ```
 
 4. Puis fair la migration pour la bdd SQLite en supprimant l'ancienne version ou en choisisant correctement la version à migrer.
+```bash
+symfony console make:migration
+symfony console doctrine:migrations:migrate
+
+```
 
 5. Fixtures load
 
-## Version de l'api avec PostGreSQL (Chargement mise en place d'une bdd différente)
+### Version de l'api avec PostGreSQL
 ```yaml
-url :
+url : https://www.enterprisedb.com/
+```
+DLL wamp --> php.ini --> Dynamic Extension --> lever le `;` à : `extension=pdo_sqlite` et
+`extension=pgsql` .
+
+Installer l'interface pgAdmin
+
+Configurer Symfony
+```yaml
+# Dans config/packages/doctrine.yaml, ajouter !
+dbal:
+    driver: 'pdo_pgsql'
+    charset: utf8
+```
+Connexion à PostgreSql dans le fichier `.env`
+
+### Migration et fixtures en mode prod
+
+Aller voir dans `config/bundles.php` , on passe fixture load en mode 'all' pour pouvoir avoir le chargement des fixtures par défault au déploiement.
+```php
+    Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle::class => ['all' => true],
+```
+Puis dans `composer.json` on place cette ligne de `require-dev` vers `require`.
+```php
+    "doctrine/doctrine-fixtures-bundle": "^3.4",
+```
+Puis on ajoute une strcure dans scripts :
+```js
+        "compile" : [
+            "php bin/console doctrine:migration:migrate",
+            "php bin/console doctrine:fixtures:load --no-interacton --env=PROD"
+        ],
 ```

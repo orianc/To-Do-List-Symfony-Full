@@ -24,6 +24,7 @@
         "symfony/validator": "5.2.*",
         "symfony/yaml": "5.2.*",
         "twig/extra-bundle": "^2.12|^3.0",
+        "doctrine/doctrine-fixtures-bundle": "^3.4",
         "twig/twig": "^2.12|^3.0"
     },
     "config": {
@@ -49,6 +50,10 @@
         "symfony/polyfill-php72": "*"
     },
     "scripts": {
+        "compile" : [
+            "php bin/console doctrine:migration:migrate",
+            "php bin/console doctrine:fixtures:load --no-interacton --env=PROD"
+        ],
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
             "assets:install %PUBLIC_DIR%": "symfony-cmd"
@@ -70,7 +75,6 @@
         }
     },
     "require-dev": {
-        "doctrine/doctrine-fixtures-bundle": "^3.4",
         "symfony/maker-bundle": "^1.30",
         "symfony/stopwatch": "^5.2",
         "symfony/web-profiler-bundle": "^5.2"
