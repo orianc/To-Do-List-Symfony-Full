@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use DateTimeZone;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 use App\Repository\TodoRepository;
 use DateTime;
 
@@ -21,11 +23,16 @@ class Todo
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Ce champ ne peut pas être vide !")
+     * @Assert\Length(min=4, minMessage = "Au minimum {{ limit }} caractères")
+     * 
      */
     private $title;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotBlank(message="Ce champ ne peut pas être vide !")
+     * 
      */
     private $content;
 

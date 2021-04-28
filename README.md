@@ -1,3 +1,38 @@
+- [Projet : toDoList](#projet--todolist)
+    - [Etape 1 : DB](#etape-1--db)
+    - [Etape 2 : ENTITY](#etape-2--entity)
+      - [Make it :](#make-it-)
+      - [Migration :](#migration-)
+      - [Fixtures:](#fixtures)
+      - [Alimenter les tables](#alimenter-les-tables)
+    - [Analyse](#analyse)
+    - [Etape 3 : Controllers](#etape-3--controllers)
+      - [Test Controllers](#test-controllers)
+      - [Install Twig](#install-twig)
+      - [Controller Todo](#controller-todo)
+      - [La page d'accueil](#la-page-daccueil)
+      - [La page détail](#la-page-détail)
+    - [Generate Form](#generate-form)
+      - [Install](#install)
+      - [Generate Form](#generate-form-1)
+        - [Etape 1 :](#etape-1-)
+        - [Etape 2 :](#etape-2-)
+        - [Si problème de route :](#si-problème-de-route-)
+        - [Etape 3 :](#etape-3-)
+      - [Problème du champ catégory](#problème-du-champ-catégory)
+      - [Création de la méthode `update()`](#création-de-la-méthode-update)
+      - [Création de la méthode `delete()`](#création-de-la-méthode-delete)
+      - [Concernant la protection CSRF](#concernant-la-protection-csrf)
+      - [Concernant la protection CSRF](#concernant-la-protection-csrf-1)
+  - [Création d'une navbar](#création-dune-navbar)
+    - [Pour la partie dropdown des catégories](#pour-la-partie-dropdown-des-catégories)
+      - [Ajout de contrainte de champs](#ajout-de-contrainte-de-champs)
+          - [Dans l'entité `Todo`](#dans-lentité-todo)
+          - [Dans le `TodoFormType`](#dans-le-todoformtype)
+  - [Version de l'api avec Sql Lite (Chargement mise en place d'une bdd différente)](#version-de-lapi-avec-sql-lite-chargement-mise-en-place-dune-bdd-différente)
+  - [Version de l'api avec PostGreSQL (Chargement mise en place d'une bdd différente)](#version-de-lapi-avec-postgresql-chargement-mise-en-place-dune-bdd-différente)
+
+
 # Projet : toDoList
 - Création du projet et installation du package Symfony mini via :
 ```bash
@@ -79,7 +114,7 @@ composer require --dev doctrine/doctrine-fixtures-bundle
 2.  On créer un Objet `Todo`.
     1.  La méthode `setCategory()` qui a besoin d'un objet `Category` comme argument.
 
-### Controllers
+### Etape 3 : Controllers
 
 #### Test Controllers
 - L'objectif est de voir le format de rendu que propose le Controller, sachant que **Twig n'est pas installé.**
@@ -92,17 +127,17 @@ symfony console make:controller Test
 ```bash
 composer require twig
 ```
-### Controller Todo
+#### Controller Todo
 ```bash
 symfony console make:controller Todo
 # Maintenant il créer un View dans un nouveau dossier `Template`
 ```
-### La page d'accueil
+#### La page d'accueil
 
 Le controller va récup notre premier enregirstrement de la table To DO et le passer à la vue `todo/index`
 La mise en forme est gérée par des tables Bootstrap
 
-### La page détail
+#### La page détail
 
 1. Une méthode et sa route
 
@@ -284,4 +319,56 @@ private $all_categories;
     {
         $this->all_categories = $categoryRepository->findAll();
     }
+```
+
+
+
+#### Ajout de contrainte de champs
+
+###### Dans l'entité `Todo`
+
+Ne pas oublier d'importer le composant `Validator` : 
+```php
+use Symfony\Component\Validator\Constraints as Assert;
+```
+
+On ajoute par exemple les méthodes suivante grace à l'objet `Assert` sur les champs voulu.
+```php
+     * @Assert\NotBlank(message="Ce champ ne peut pas être vide !")
+     * @Assert\Length(min=4, minMessage = "Au minimum {{ limit }} caractères")
+```
+
+###### Dans le `TodoFormType`
+```php
+    'empty_data' => '',
+```
+
+Et dans la méthode `configureOptions()`
+```php
+    'novalidate' => 'novalidate'
+```
+
+
+## Version de l'api avec Sql Lite (Chargement mise en place d'une bdd différente)
+
+1. Installer SqlLiteStudio
+2. Définir la collection dans le fichier `.env`
+    
+```bash
+# ------ Connexion SQL Lite
+# 
+DATABASE_URL="sqlite:///%kernel.project_dir%/var/data.db"
+```
+3. Création de la DB : `db_todolist_lite`
+```bash
+symfony console doctrine:database:create
+```
+
+4. Puis fair la migration pour la bdd SQLite en supprimant l'ancienne version ou en choisisant correctement la version à migrer.
+
+5. Fixtures load
+
+## Version de l'api avec PostGreSQL (Chargement mise en place d'une bdd différente)
+```yaml
+url :
 ```
