@@ -38,7 +38,7 @@ class TodoController extends AbstractController
 
 
     /**
-     * @Route("/todo/create", name="app_todo_create", methods={"GET", "POST"})
+     * @Route("/create", name="app_todo_create", methods={"GET", "POST"})
      * @return void
      */
     public function create(Request $request, EntityManagerInterface $em): Response
