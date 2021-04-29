@@ -24,7 +24,7 @@ class TodoController extends AbstractController
         $this->all_categories = $categoryRepository->findAll();
     }
     /**
-     * @Route("/", "/todo" ,"/todo/list", name="app_todo")
+     * @Route("/", name="app_todo")
      */
     public function index(): Response
     {
