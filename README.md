@@ -449,14 +449,19 @@ echo 'web: heroku-php-apache2 public/' > Procfile
 3. PostgreSql
 On doit di à Heroku quel SGBD utiliser. On trouve ça dans les addons chez Heroku, mais nous alllons continuer en cmd line.
 Après l'install, il a créé un varibale d'environnement DATABASE_URL connue dans Symfony.
-
+4. Deploiment.
 
 ```bash
 # 1
 heroku create
 # faire un login si besoin
+
 # 2
 heroku config:set APP_ENV=prod
+
 # 3
 heroku addons:create heroku-postgresql:hobby-dev
+
+# 4
+git push heroku
 ```
