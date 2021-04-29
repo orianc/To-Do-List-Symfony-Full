@@ -24,7 +24,7 @@ class TodoController extends AbstractController
         $this->all_categories = $categoryRepository->findAll();
     }
     /**
-     * @Route("/", name="app_todo")
+     * @Route("/", "/todo", name="app_todo")
      */
     public function index(): Response
     {
@@ -38,7 +38,7 @@ class TodoController extends AbstractController
 
 
     /**
-     * @Route("/create", name="app_todo_create", methods={"GET", "POST"})
+     * @Route("/todo/create", name="app_todo_create", methods={"GET", "POST"})
      * @return void
      */
     public function create(Request $request, EntityManagerInterface $em): Response
