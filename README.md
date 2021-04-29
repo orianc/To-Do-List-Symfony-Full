@@ -32,6 +32,11 @@
     - [Version de l'api avec Sql Lite](#version-de-lapi-avec-sql-lite)
     - [Version de l'api avec PostGreSQL](#version-de-lapi-avec-postgresql)
     - [Migration et fixtures en mode prod](#migration-et-fixtures-en-mode-prod)
+    - [Heroku](#heroku)
+      - [ReWritting des urls pour Heroku](#rewritting-des-urls-pour-heroku)
+      - [Créé un fichier `Procfile`](#créé-un-fichier-procfile)
+      - [Compte Heroku](#compte-heroku)
+      - [Créer une API](#créer-une-api)
 
 
 # Projet : toDoList
@@ -403,10 +408,55 @@ Puis dans `composer.json` on place cette ligne de `require-dev` vers `require`.
 ```php
     "doctrine/doctrine-fixtures-bundle": "^3.4",
 ```
-Puis on ajoute une strcure dans scripts :
+Puis on ajoute une structure dans scripts qui serviront lors du déploiement :
 ```js
         "compile" : [
             "php bin/console doctrine:migration:migrate",
             "php bin/console doctrine:fixtures:load --no-interacton --env=PROD"
         ],
+```
+__NB__ Comme nous avons modifié le composer.json
+```bash
+composer update
+```
+
+### Heroku
+Permet de déployer des API de toute forme. Mise en ligne. 
+
+#### ReWritting des urls pour Heroku
+
+```bash
+composer req symfony/apache-pack
+```
+
+#### Créé un fichier `Procfile`
+Le fichier créé suivant va dire à Heroku quel web server  est utilisé.
+
+```bash
+echo 'web: heroku-php-apache2 public/' > Procfile
+```
+
+#### Compte Heroku
+
+1. Créer un compte
+2. Installer la cmd line de Heroku
+3. Depuis un terminal, nous avons accès aux commandes Heroku
+
+#### Créer une API
+
+1. Heroku create
+2. Config de l'env PROD
+3. PostgreSql
+On doit di à Heroku quel SGBD utiliser. On trouve ça dans les addons chez Heroku, mais nous alllons continuer en cmd line.
+Après l'install, il a créé un varibale d'environnement DATABASE_URL connue dans Symfony.
+
+
+```bash
+# 1
+heroku create
+# faire un login si besoin
+# 2
+heroku config:set APP_ENV=prod
+# 3
+heroku addons:create heroku-postgresql:hobby-dev
 ```
